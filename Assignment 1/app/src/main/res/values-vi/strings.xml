@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">ClimbScoreApp</string>
+    <string name="btn_climb">Leo</string>
+    <string name="btn_fall">Ngã</string>
+    <string name="btn_reset">Đặt Lại</string>
+    <string name="score">Điểm</string>
+    <string name="text1">Điểm Hiện Tại Là</string>
+    <string name="score_desc">Điểm Hiện Tại</string>
+    <string name="warning_need_climb">Bạn phải leo trước khi có thể ngã.</string>
+    <string name="warning_after_fall">Bạn không thể leo tiếp sau khi đã ngã.</string>
+    <string name="warning_at_top">Bạn không thể ngã sau khi đã lên tới đỉnh.</string>
+</resources>

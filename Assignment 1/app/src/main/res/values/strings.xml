@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">ClimbScoreApp</string>
+    <string name="btn_climb">Climb</string>
+    <string name="btn_fall">Fall</string>
+    <string name="btn_reset">Reset</string>
+    <string name="score">Score</string>
+    <string name="text1">The current score is</string>
+    <string name="score_desc">Current Score</string>
+    <string name="warning_need_climb">You must climb first before falling.</string>
+    <string name="warning_after_fall">You can not climb after falling.</string>
+    <string name="warning_at_top">You can not fall after reaching the top.</string>
+</resources>
