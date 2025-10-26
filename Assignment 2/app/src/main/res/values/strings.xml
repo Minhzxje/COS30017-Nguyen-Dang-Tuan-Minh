@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Music Rental</string>
+    <string name="price_per_month">%1$d credit / month</string>
+    <string name="status_available">Status: Available</string>
+</resources>
