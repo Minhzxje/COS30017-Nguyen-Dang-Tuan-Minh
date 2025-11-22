@@ -29,4 +29,7 @@ interface TransactionDao {
 
     @Query("SELECT * FROM transactions WHERE type = :type ORDER BY date DESC")
     fun getTransactionsByType(type: String): LiveData<List<Transaction>>
+
+    @Query("SELECT * FROM transactions WHERE id = :id")
+    suspend fun getTransactionById(id: Int): Transaction?
 }

@@ -63,6 +63,14 @@ class TransactionViewModel(application: Application) : AndroidViewModel(applicat
         return repository.getTransactionsByType(type)
     }
 
+    // NEW: Get transaction by ID for editing
+    fun getTransactionById(id: Int, onResult: (Transaction?) -> Unit) {
+        viewModelScope.launch {
+            val transaction = repository.getTransactionById(id)
+            onResult(transaction)
+        }
+    }
+
     fun formatCurrency(amount: Double): String {
         val format = NumberFormat.getCurrencyInstance(Locale("vi", "VN"))
         return format.format(amount)

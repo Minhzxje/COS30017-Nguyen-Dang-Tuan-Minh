@@ -1,44 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
     app:startDestination="@id/dashboardFragment">
 
-    <!--
-        Dashboard Fragment - Starting destination.
-        WHY startDestination?: First screen user sees when app opens.
-    -->
     <fragment
         android:id="@+id/dashboardFragment"
         android:name="com.example.smartwallet.ui.DashboardFragment"
         android:label="SmartWallet"
         tools:layout="@layout/fragment_dashboard">
 
-        <!-- Action: Navigate to Add Transaction -->
         <action
             android:id="@+id/action_dashboard_to_add_transaction"
             app:destination="@id/addTransactionFragment" />
 
-        <!-- Action: Navigate to All Transactions -->
         <action
             android:id="@+id/action_dashboard_to_all_transactions"
             app:destination="@id/allTransactionsFragment" />
     </fragment>
 
-    <!-- Add Transaction Fragment -->
     <fragment
         android:id="@+id/addTransactionFragment"
         android:name="com.example.smartwallet.ui.AddTransactionFragment"
         android:label="Add Transaction"
-        tools:layout="@layout/fragment_add_transaction" />
+        tools:layout="@layout/fragment_add_transaction">
 
-    <!-- All Transactions Fragment -->
+        <argument
+            android:name="transactionId"
+            android:defaultValue="-1"
+            app:argType="integer" />
+    </fragment>
+
     <fragment
         android:id="@+id/allTransactionsFragment"
         android:name="com.example.smartwallet.ui.AllTransactionsFragment"
         android:label="All Transactions"
-        tools:layout="@layout/fragment_all_transactions" />
+        tools:layout="@layout/fragment_all_transactions">
+
+        <action
+            android:id="@+id/action_all_transactions_to_add_transaction"
+            app:destination="@id/addTransactionFragment" />
+    </fragment>
 
 </navigation>

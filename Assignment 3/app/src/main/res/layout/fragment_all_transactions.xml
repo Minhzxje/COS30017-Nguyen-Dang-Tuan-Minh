@@ -13,7 +13,6 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <!-- Filter Chips -->
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -52,7 +51,6 @@
             </com.google.android.material.chip.ChipGroup>
         </com.google.android.material.card.MaterialCardView>
 
-        <!-- Transactions List -->
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_all_transactions"
             android:layout_width="match_parent"
@@ -62,7 +60,6 @@
             android:clipToPadding="false"
             tools:listitem="@layout/item_transaction"/>
 
-        <!-- Empty State -->
         <LinearLayout
             android:id="@+id/layout_empty_state"
             android:layout_width="match_parent"

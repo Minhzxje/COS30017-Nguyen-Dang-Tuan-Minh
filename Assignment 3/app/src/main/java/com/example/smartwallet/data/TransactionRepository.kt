@@ -24,4 +24,8 @@ class TransactionRepository(private val transactionDao: TransactionDao) {
     fun getTransactionsByType(type: String): LiveData<List<Transaction>> {
         return transactionDao.getTransactionsByType(type)
     }
+
+    suspend fun getTransactionById(id: Int): Transaction? {
+        return transactionDao.getTransactionById(id)
+    }
 }

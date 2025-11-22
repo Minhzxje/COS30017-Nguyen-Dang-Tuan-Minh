@@ -11,8 +11,17 @@
     <string name="category">Category</string>
     <string name="date">Date</string>
     <string name="save_transaction">Save Transaction</string>
+    <string name="update_transaction">Update Transaction</string>
     <string name="no_transactions">No transactions yet</string>
     <string name="filter_all">All</string>
     <string name="filter_income">Income</string>
     <string name="filter_expense">Expense</string>
+    <string name="transaction_saved">Transaction saved!</string>
+    <string name="transaction_updated">Transaction updated!</string>
+    <string name="transaction_deleted">Transaction deleted</string>
+    <string name="undo">UNDO</string>
+    <string name="please_select_category">Please select a category</string>
+    <string name="good_morning">Good morning!</string>
+    <string name="good_afternoon">Good afternoon!</string>
+    <string name="good_evening">Good evening!</string>
 </resources>

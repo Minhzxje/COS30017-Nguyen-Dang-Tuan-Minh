@@ -9,6 +9,7 @@ import android.widget.LinearLayout
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -19,7 +20,6 @@ import com.example.smartwallet.R
 import com.example.smartwallet.data.Transaction
 import com.example.smartwallet.viewmodel.TransactionViewModel
 import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator
-
 
 class AllTransactionsFragment : Fragment() {
 
@@ -67,6 +67,11 @@ class AllTransactionsFragment : Fragment() {
     private fun setupRecyclerView() {
         transactionAdapter = TransactionAdapter(
             onItemClick = { transaction ->
+                // Navigate to edit transaction
+                val bundle = Bundle().apply {
+                    putInt("transactionId", transaction.id)
+                }
+                findNavController().navigate(R.id.addTransactionFragment, bundle)
             },
             formatCurrency = { amount ->
                 viewModel.formatCurrency(amount)
@@ -97,13 +102,24 @@ class AllTransactionsFragment : Fragment() {
                 val position = viewHolder.absoluteAdapterPosition
                 val transaction = transactionAdapter.currentList[position]
 
+                // Remove from adapter immediately
+                val currentList = ArrayList(transactionAdapter.currentList)
+                currentList.removeAt(position)
+                transactionAdapter.submitList(currentList)
+
                 viewModel.deleteTransaction(transaction)
 
                 Snackbar.make(
                     rvAllTransactions,
-                    "Transaction deleted",
+                    getString(R.string.transaction_deleted),
                     Snackbar.LENGTH_LONG
-                ).setAction("UNDO") {
+                ).setAction(getString(R.string.undo)) {
+                    // Add back to adapter immediately
+                    val updatedList = ArrayList(transactionAdapter.currentList)
+                    updatedList.add(position, transaction)
+                    transactionAdapter.submitList(updatedList)
+
+                    // Re-insert into database
                     viewModel.insertTransaction(transaction)
                 }.show()
             }
@@ -165,13 +181,10 @@ class AllTransactionsFragment : Fragment() {
     }
 
     private fun observeFilteredTransactions(type: String) {
-        viewModel.allTransactions.removeObservers(viewLifecycleOwner)
-
         viewModel.getFilteredTransactions(type).observe(viewLifecycleOwner) { transactions ->
             updateUI(transactions)
         }
     }
-
 
     private fun updateUI(transactions: List<Transaction>) {
         if (transactions.isEmpty()) {

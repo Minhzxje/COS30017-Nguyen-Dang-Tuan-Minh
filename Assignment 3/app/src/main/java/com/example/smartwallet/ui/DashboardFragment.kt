@@ -65,6 +65,11 @@ class DashboardFragment : Fragment() {
     private fun setupRecyclerView() {
         transactionAdapter = TransactionAdapter(
             onItemClick = { transaction ->
+                // Navigate to edit transaction
+                val bundle = Bundle().apply {
+                    putInt("transactionId", transaction.id)
+                }
+                findNavController().navigate(R.id.addTransactionFragment, bundle)
             },
             formatCurrency = { amount ->
                 viewModel.formatCurrency(amount)
@@ -80,11 +85,11 @@ class DashboardFragment : Fragment() {
 
     private fun setupClickListeners() {
         fabAddTransaction.setOnClickListener {
-            findNavController().navigate(R.id.action_dashboard_to_add_transaction)
+            findNavController().navigate(R.id.addTransactionFragment)
         }
 
         tvSeeAll.setOnClickListener {
-            findNavController().navigate(R.id.action_dashboard_to_all_transactions)
+            findNavController().navigate(R.id.allTransactionsFragment)
         }
     }
 
@@ -102,25 +107,53 @@ class DashboardFragment : Fragment() {
         }
 
         viewModel.recentTransactions.observe(viewLifecycleOwner) { transactions ->
-            if (transactions.isEmpty()) {
-                rvRecentTransactions.visibility = View.GONE
-                layoutEmptyState.visibility = View.VISIBLE
-            } else {
-                rvRecentTransactions.visibility = View.VISIBLE
-                layoutEmptyState.visibility = View.GONE
-                transactionAdapter.submitList(transactions)
-            }
+            updateRecentTransactionsUI(transactions)
+        }
+    }
+
+    private fun updateRecentTransactionsUI(transactions: List<com.example.smartwallet.data.Transaction>) {
+        if (transactions.isEmpty()) {
+            rvRecentTransactions.visibility = View.GONE
+            layoutEmptyState.visibility = View.VISIBLE
+        } else {
+            rvRecentTransactions.visibility = View.VISIBLE
+            layoutEmptyState.visibility = View.GONE
+            transactionAdapter.submitList(transactions)
         }
     }
 
     private fun setGreeting() {
         val hour = java.util.Calendar.getInstance().get(java.util.Calendar.HOUR_OF_DAY)
         val greeting = when (hour) {
-            in 0..11 -> "Good morning!"
-            in 12..17 -> "Good afternoon!"
-            else -> "Good evening!"
+            in 0..11 -> getString(R.string.good_morning)
+            in 12..17 -> getString(R.string.good_afternoon)
+            else -> getString(R.string.good_evening)
         }
         tvGreeting.text = greeting
+    }
+
+    override fun onResume() {
+        super.onResume()
+        refreshData()
+    }
+
+    private fun refreshData() {
+        viewModel.recentTransactions.value?.let { transactions ->
+            updateRecentTransactionsUI(transactions)
+        }
+
+        // Also refresh the balance, income, and expense
+        viewModel.currentBalance.value?.let { balance ->
+            tvCurrentBalance.text = viewModel.formatCurrency(balance)
+        }
+
+        viewModel.totalIncome.value?.let { income ->
+            tvTotalIncome.text = viewModel.formatCurrency(income)
+        }
+
+        viewModel.totalExpense.value?.let { expense ->
+            tvTotalExpense.text = viewModel.formatCurrency(expense)
+        }
     }
 
     override fun onDestroyView() {
